@@ -19,7 +19,7 @@ Results : 0.728992837
 4. run (main.py)
 
 ## How to make result video
-Run (results.py)
+Run (result.py)
 #### results
 <img src=https://github.com/simfrog/blackbox_classification/assets/31130917/60c34bbd-31fb-4329-aeb9-24d3ca494f43.gif width=350, height=180>
 
