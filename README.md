@@ -16,4 +16,14 @@ Results : 0.728992837
 1. Install [vidaug](https://github.com/okankop/vidaug) package
 2. Download [DACON](https://dacon.io/competitions/official/236064/data) data
 3. git clone this code
-4. run
+4. run (main.py)
+
+## How to make result video
+Run (results.py)
+#### results
+<img src=https://github.com/simfrog/blackbox_classification/assets/31130917/60c34bbd-31fb-4329-aeb9-24d3ca494f43.gif width=350, height=180>
+
+<img src=https://github.com/simfrog/blackbox_classification/assets/31130917/6c4ce961-4387-443d-8709-4344d73bccc5.gif width=350, height=180>
+
+
+<img src=https://github.com/simfrog/blackbox_classification/assets/31130917/e1ff22d1-26a4-4aa4-bb5d-806f846ca7c9.gif width=350, height=180>
