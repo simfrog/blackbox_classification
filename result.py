@@ -29,25 +29,25 @@ test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=
 ''' inference '''
 crash_model = models.ResNet18_3D(2)
 print(f'Load Model : crash_infer_model')
-crash_model.load_state_dict(torch.load(f'/home/oem/Desktop/SnowyLittleDrop/model/crash_infer_model.pt'))
+crash_model.load_state_dict(torch.load(f'./model/best/crash_infer_model.pt'))
 crash_model.to(device)
 crash_model.eval()
 
 ego_model = models.ResNet18_3D(2)
 print(f'Load Model : ego_infer_model')
-ego_model.load_state_dict(torch.load(f'/home/oem/Desktop/SnowyLittleDrop/model/ego_infer_model.pt'))
+ego_model.load_state_dict(torch.load(f'./model/best/ego_infer_model.pt'))
 ego_model.to(device)
 ego_model.eval()
 
 weather_model = models.ResNet18_3D(3)
 print(f'Load Model : ego_infer_model')
-weather_model.load_state_dict(torch.load(f'/home/oem/Desktop/SnowyLittleDrop/model/weather_infer_model.pt'))
+weather_model.load_state_dict(torch.load(f'./model/best/weather_infer_model.pt'))
 weather_model.to(device)
 weather_model.eval()
 
 timing_model = models.ResNet18_3D(2)
 print(f'Load Model : timing_infer_model')
-timing_model.load_state_dict(torch.load(f'/home/oem/Desktop/SnowyLittleDrop/model/timing_infer_model.pt'))
+timing_model.load_state_dict(torch.load(f'./model/best/timing_infer_model.pt'))
 timing_model.to(device)
 timing_model.eval()
 
@@ -116,31 +116,31 @@ with torch.no_grad():
 # print(preds[27])
 red = (0, 0, 255)
 font = cv2.FONT_HERSHEY_PLAIN
-fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 video_path_list = test_df['video_path'].values
 for i in range(len(video_path_list)):
     frames = []
     cap = cv2.VideoCapture(video_path_list[i])
-    out = cv2.VideoWriter('./result/%04d.mp4', fourcc, 30.0, (int(1028), int(720)))
+    out = cv2.VideoWriter(f'./result/{i}.mp4', fourcc, 30.0, (int(1028), int(720)))
     if preds[i] == 0:
         for _ in range(50):
             _, img = cap.read()
             img = cv2.resize(img, (1028, 720))
-            img = cv2.putText(img, "Label:0(Crash:Yes/Ego:Yes/Weather:Normal/Timing:Day)", (50, 100), font, 2, red, 2,
+            img = cv2.putText(img, "Label:0(Crash:No/Ego:--/Weather:--/Timing:--)", (50, 100), font, 2, red, 2,
                               cv2.LINE_AA)
             frames.append(img)
     elif preds[i] == 1:
         for _ in range(50):
             _, img = cap.read()
             img = cv2.resize(img, (1028, 720))
-            img = cv2.putText(img, "Label:1(Crash:Yes/Ego:Yes/Weather:Normal/Timing:Night)", (50, 100), font, 2, red, 2,
+            img = cv2.putText(img, "Label:1(Crash:Yes/Ego:Yes/Weather:Normal/Timing:Day)", (50, 100), font, 2, red, 2,
                               cv2.LINE_AA)
             frames.append(img)
     elif preds[i] == 2:
         for _ in range(50):
             _, img = cap.read()
             img = cv2.resize(img, (1028, 720))
-            img = cv2.putText(img, "Label:2(Crash:Yes/Ego:Yes/Weather:Snowy/Timing:Day)", (50, 100), font, 2, red, 2,
+            img = cv2.putText(img, "Label:2(Crash:Yes/Ego:Yes/Weather:Normal/Timing:Night)", (50, 100), font, 2, red, 2,
                               cv2.LINE_AA)
             frames.append(img)
     elif preds[i] == 3:
@@ -214,7 +214,8 @@ for i in range(len(video_path_list)):
                               cv2.LINE_AA)
             frames.append(img)
 
-    out.write(frames)
-    # for i in range(50):
-    #     f_cur = frames[i]
-    #     cv2.imwrite('./result/%02d.jpg' % i, f_cur)
+    for i in range(50):
+        f_cur = frames[i]
+        out.write(f_cur)
+        # cv2.imwrite('./result/%02d.jpg' % i, f_cur)
+    out.release()
